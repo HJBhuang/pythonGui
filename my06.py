@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+import webbrowser
 
 
 class Application(Frame):
@@ -12,29 +12,47 @@ class Application(Frame):
 
     def createWidget(self):
        """创建组建"""
-       self.lable01=Label(self,text="用户名")
-       self.lable01.pack()
+       self.w1=Text(self,width=40,height=12,bg="gray")
+       self.w1.pack()
+       self.w1.insert(1.0,"0123456789\nabcdefg")
+       self.w1.insert(2.3,"锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦\n")
+       Button(self,text="重复插入文本",command=self.insertText).pack(side="left")
+       Button(self,text="返回文本",command=self.returnText).pack(side="left")
+       Button(self,text="添加图片",command=self.addImage).pack(side="left")
+       Button(self,text="添加组件",command=self.addWidget).pack(side="left")
+       Button(self,text="通过tag精准控制文本",command=self.testTag).pack(side="left")
 
-       v1=StringVar()
-       self.entry01 =Entry(self,textvariable=v1)
-       self.entry01.pack()
-       v1.set("admin")
+    def insertText(self):
+        self.w1.insert(INSERT,'Gaoqi')
+        self.w1.insert(END,'[sxt]')
+        self.w1.insert(1.8, "gaoqi")
+    def returnText(self):
+        print(self.w1.get(1.2,1.6))
 
-       self.lable02 = Label(self, text="密码")
-       self.lable02.pack()
+        print("所有文本内容:\n"+self.w1.get(1.0,END))
 
-       v2 = StringVar()
-       self.entry02 = Entry(self, textvariable=v2,show="*")
-       self.entry02.pack()
-       v1.set("admin")
 
-       self.btn01 = Button(self, text="登陆", width="16", command=self.login)
-       self.btn01.pack()
+    def addImage(self):
+        self.photo=PhotoImage(file="images/test.gif")
+        self.w1.image_create(END,image=self.photo)
 
-    def login(self):
-        print("用户名:"+self.entry01.get())
-        print("密码:"+self.entry02.get())
-        messagebox.showinfo("学习系统","登录成功，欢迎学习！")
+    def addWidget(self):
+        b1=Button(self.w1,text="尚学堂")
+        self.w1.window_create(INSERT,window=b1)
+        pass
+    def testTag(self):
+        self.w1.delete(1.0,END)
+        self.w1.insert(INSERT,"GOODGOODGOODGOODGOODGOOD\nGOODGOODGOODGOODGOOD\nGOODGOODGOODGOOD\nGOODGOODGOODGOODGOOD\nGOODGOODGOODGOOD\nGOODGOODGOODGOODGOOD\nGOODGOODGOODGOOD\nGOODGOODGOODGOODGOOD\nGOODGOODGOODGOOD")
+        self.w1.tag_add("hjb",1.0,1.9)
+        self.w1.tag_config("good",background='yellow',foreground="red")
+        self.w1.tag_add("baidu",4.0,4.2)
+        self.w1.tag_config("baidu",underline=True)
+        self.w1.tag_bind("baidu","<Button-1>",self.webshow)
+        pass
+    def webshow(self,event):
+        webbrowser.open("http://www.baidu.com")
+
+
 if __name__ == '__main__':
     root = Tk()
     root.geometry("400x400+200+300")
