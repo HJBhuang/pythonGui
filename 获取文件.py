@@ -21,7 +21,7 @@ class Application(Frame):
        show.pack()
 
     def test1(self):
-        f = askopenfilenames(title="上传文件",initialdir="c:",filetypes=[("文本",".*")])
+        f = askopenfilenames(title="上传文件",initialdir="c:",filetypes=[("文本",".txt")])
         print(f)
         show["text"]=f
 
